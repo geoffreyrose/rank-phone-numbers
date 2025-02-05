@@ -1,0 +1,17 @@
+node_modules/
+composer.lock
+vendor
+index.php
+.phpunit.result.cache
+reports
+clover.xml
+coverage.xml
+assets
+package-lock.json
+package.json
+.phpdoc
+docs
+/.idea
+build/
+.php-cs-fixer.cache
+.phpunit.cache
