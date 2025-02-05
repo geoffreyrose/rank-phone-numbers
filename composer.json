@@ -1,5 +1,8 @@
 {
     "name": "geoffreyrose/rank-phone-numbers",
+    "description": "Find The Best Phone Number! PHP + Laravel Facade",
+    "keywords": ["Phone Number", "VOIP", "Virtual Phone Number", "Phone Number Ranking"],
+    "license": "MIT",
     "require": {
         "php": "^8.3"
     },
