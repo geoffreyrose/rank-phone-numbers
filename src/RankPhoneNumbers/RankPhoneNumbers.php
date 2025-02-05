@@ -41,7 +41,7 @@ class RankPhoneNumbers
             $rankedPhoneNumber['number'] = $number;
             $rankedPhoneNumber['__ranked_phone_number_points__'] = 0;
 
-            preg_filter('/\D/', '', $number);
+            $number = preg_filter('/\D/', '', $number);
             $lastFour = substr($number, -4);
 
             // Repeated numbers in a row
