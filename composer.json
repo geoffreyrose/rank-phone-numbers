@@ -26,5 +26,8 @@
                 "RankPhoneNumbers": "RankPhoneNumbers\\Facades\\RankPhoneNumbers"
             }
         }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.20"
     }
 }

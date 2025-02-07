@@ -12,7 +12,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         $this->app->singleton(RankPhoneNumbers::class, function ($app) {
-            return new RankPhoneNumbers();
+            return new RankPhoneNumbers;
         });
 
         $this->app->alias(RankPhoneNumbers::class, 'rankphonenumbers');
