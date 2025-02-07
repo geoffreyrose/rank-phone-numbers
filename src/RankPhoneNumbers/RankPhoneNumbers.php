@@ -160,7 +160,7 @@ class RankPhoneNumbers
             }
 
             $rankedPhoneNumber = new stdClass;
-            $rankedPhoneNumber->number = (string) $number;
+            $rankedPhoneNumber->number = $number;
             $rankedPhoneNumber->rank_phone_number_points = 0;
 
             $number = preg_filter('/\D/', '', $number);
@@ -199,6 +199,11 @@ class RankPhoneNumbers
                     $newData['rank_phone_number_word_match_end'] = $rankedPhoneNumber->rank_phone_number_word_match_end;
                     $phoneNumber = (object) $newData;
                 }
+            } else {
+                $newData['number'] = $phoneNumber;
+                $newData['rank_phone_number_points'] = $rankedPhoneNumber->rank_phone_number_points;
+                $newData['rank_phone_number_word_match_end'] = $rankedPhoneNumber->rank_phone_number_word_match_end;
+                $phoneNumber = (object) $newData;
             }
 
             $rankedPhoneNumbers[] = $phoneNumber;
