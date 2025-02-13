@@ -13,7 +13,7 @@ Works great with Twilio, Bandwidth, Vonage, SignalWire or any other programmable
 
 
 ### Requirements
-* PHP 8.3+
+* PHP 8.4+
 
 ### Usage
 
@@ -96,20 +96,67 @@ $ranked = $rankPhoneNumbers->rank();
 // $ranked will be the original phone numbers array sorted by rank 
 ```
 
-### Methods
+## Methods
 
-#### setPhoneNumbers(array $phoneNumbers): self
+### setPhoneNumbers(array $phoneNumbers): self
 
 Sets the phone numbers to be ranked.
 
-#### setPhoneNumbersKeyName(string $phoneNumbersKeyName): self
+### setPhoneNumbersKeyName(string $phoneNumbersKeyName): self
 
 Sets the key name where the phone numbers are stored in associative arrays or object.
 
-#### rank(): array
+### rank(): array
 
 Returns the original phone numbers array sorted by rank.
 
+
+### Add Rules
+
+```php
+$rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
+$rankPhoneNumbers->setPhoneNumbers($phoneNumbers);
+$rankPhoneNumbers->setPhoneNumbersKeyName('phoneNumber');
+$rankPhoneNumbers->addRule(new App\RepeatsInARow);
+```
+
+## Rules
+
+### Default Rules
+
+- double_match
+- ends_in_zero_or_five
+- funny_69
+- funny_420
+- partial_sequential_numbers
+- pattern_135
+- pattern_246
+- pattern_357
+- pattern_369
+- pattern_468
+- pattern_579
+- pattern_642
+- pattern_753
+- pattern_864
+- pattern_963
+- pattern_975
+- pattern_two_increment
+- pattern_x2y2
+- repeats_in_a_row
+- same_numbers
+- sequential_numbers
+- song_865
+- song_5309
+- symmetrical
+- two_from_end_is_zero_or_five
+
+### Modify Rules
+
+```php
+$rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
+$rankPhoneNumbers->setPhoneNumbers($phoneNumbers);
+$rankPhoneNumbers->rules['repeats_in_a_row']->points = 123;
+```
 
 ## TODO
 

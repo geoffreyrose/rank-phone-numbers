@@ -1,7 +1,7 @@
 node_modules/
 composer.lock
 vendor
-index.php
+App/Index.php
 .phpunit.result.cache
 reports
 clover.xml
@@ -15,3 +15,4 @@ docs
 build/
 .php-cs-fixer.cache
 .phpunit.cache
+App
