@@ -358,3 +358,4 @@ If you want to disable a specific word rule, set `isActive` to false.
 
 - [ ] Add Tests
 - [ ] Documentation
+- [ ] Add to or use a different word list
