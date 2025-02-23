@@ -215,7 +215,6 @@ $ranked = $rankPhoneNumbers->rank();
         ]
     ]
 ];
-$phoneNumbers
 ```
 
 ## Methods
@@ -325,7 +324,7 @@ Checks the last four, five, six, and seven letters of the phone number to see if
 
 ```php
 $rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
-$rankPhoneNumbers->rules['word_is_last_four']->points = 75;
+$rankPhoneNumbers->wordRules['word_is_last_four']->points = 75;
 ```
 
 
