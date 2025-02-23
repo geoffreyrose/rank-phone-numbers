@@ -328,6 +328,32 @@ $rankPhoneNumbers->wordRules['word_is_last_four']->points = 75;
 ```
 
 
+### Rule Abstracts and Word Rule Abstracts
+
+All defaults can be updated as needed. 
+
+For example, to change the points of a rule:
+```php
+$rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
+$rankPhoneNumbers->wordRules['word_is_last_four']->points = 75;
+$rankPhoneNumbers->rules['repeats_in_a_row']->points = 123;`
+```
+
+#### Rule Properties
+
+- name: string
+- points: int
+- - pattern: string
+
+#### Word Rule Properties
+
+If you want to disable a specific word rule, set `isActive` to false.
+- name: string
+- points: int
+- isActive: bool
+- endingDigitsToCheck: int
+
+
 ## TODO
 
 - [ ] Add Tests
