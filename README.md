@@ -343,7 +343,7 @@ $rankPhoneNumbers->rules['repeats_in_a_row']->points = 123;`
 
 - name: string
 - points: int
-- - pattern: string
+- pattern: string
 
 #### Word Rule Properties
 
