@@ -1,6 +1,6 @@
 <?php
 
-namespace RankPhoneNumbers\Rules;
+namespace RankPhoneNumbers\Abstracts;
 
 abstract class RuleAbstract
 {

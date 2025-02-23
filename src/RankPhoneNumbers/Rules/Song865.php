@@ -2,6 +2,8 @@
 
 namespace RankPhoneNumbers\Rules;
 
+use RankPhoneNumbers\Abstracts\RuleAbstract;
+
 class Song865 extends RuleAbstract
 {
     public function __construct()

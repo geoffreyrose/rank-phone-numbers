@@ -2,6 +2,8 @@
 
 namespace RankPhoneNumbers\Rules;
 
+use RankPhoneNumbers\Abstracts\RuleAbstract;
+
 class Pattern753 extends RuleAbstract
 {
     public function __construct()

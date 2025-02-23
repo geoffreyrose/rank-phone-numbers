@@ -2,6 +2,8 @@
 
 namespace RankPhoneNumbers\Rules;
 
+use RankPhoneNumbers\Abstracts\RuleAbstract;
+
 class TwoFromEndIsZeroOrFive extends RuleAbstract
 {
     public function __construct()

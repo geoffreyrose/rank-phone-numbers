@@ -31,7 +31,20 @@ $myNumbers = ['18005557184', '18005554030'];
 $rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
 $rankPhoneNumbers->setPhoneNumbers($myNumbers);
 $ranked = $rankPhoneNumbers->rank();
-// $ranked will be the original phone numbers array sorted by rank.
+
+// $ranked
+[
+    [0] => (object) [
+        "phone_number" => "18005554030"
+        "rank_phone_number_points" => 175
+        "rank_phone_number_word_match_end" => []
+    ],
+    [1] => (object) [
+        "phone_number"] => "18005557184"
+        "rank_phone_number_points" => 0
+        "rank_phone_number_word_match_end" =>  []
+    ]
+]
 ```
 
 ### With Laravel Facade
@@ -40,115 +53,229 @@ Laravel uses Package Auto-Discovery, which doesn't require you to manually add t
 $myNumbers = ['18005557184', '18005554030'];
 $rankPhoneNumbers = RankPhoneNumbers::setPhoneNumbers($myNumbers);
 $ranked = $rankPhoneNumbers->rank();
-// $ranked will be the original phone numbers array sorted by rank.
+
+// $ranked
+[
+    [0] => (object) [
+        "phone_number" => "18005554030"
+        "rank_phone_number_points" => 175
+        "rank_phone_number_word_match_end" => []
+    ],
+    [1] => (object) [
+        "phone_number"] => "18005557184"
+        "rank_phone_number_points" => 0
+        "rank_phone_number_word_match_end" =>  []
+    ]
+]
 ```
 
 ### Example
 ```php
-$twilioNumbers = json_decode('[
-    {
-        "highlighted": "+15095554030",
-        "friendlyName": "(509) 555-4030",
-        "phoneNumber": "+15095554030",
-        "locality": "Omak",
-        "region": "WA",
-        "postalCode": "98841",
-        "lata": "676",
-        "rateCenter": "OMAK",
-        "latitude": "48.364700",
-        "longitude": "-119.270400",
-        "isoCountry": "US",
-        "addressRequirements": "none",
-        "beta": false,
-        "capabilities": {
-        "voice": true,
-            "SMS": true,
-            "MMS": true
-        },
-        "request_number": true
-    },
-    {
-        "highlighted": "+15095557780",
-        "friendlyName": "(509) 555-7780",
-        "phoneNumber": "+15095557780",
-        "locality": "Ritzville",
-        "region": "WA",
-        "postalCode": "99169",
-        "lata": "676",
-        "rateCenter": "RITZVILLE",
-        "latitude": "47.079600",
-        "longitude": "-118.470500",
-        "isoCountry": "US",
-        "addressRequirements": "none",
-        "beta": false,
-        "capabilities": {
-        "voice": true,
-            "SMS": true,
-            "MMS": true
-        },
-        "request_number": true
-    }
-]');
+$twilioNumbers = [
+    (object) [
+        "highlighted" => "+15095554030",
+        "friendlyName" => "(509) 555-4030",
+        "phoneNumber" => "+15095554030",
+        "locality" => "Omak",
+        "region" => "WA",
+        "postalCode" => "98841",
+        "lata" => "676",
+        "rateCenter" => "OMAK",
+        "latitude" => "48.364700",
+        "longitude" => "-119.270400",
+        "isoCountry" => "US",
+        "addressRequirements" => "none",
+        "beta" => false,
+        "capabilities" => (object)[
+            "voice" => true,
+            "SMS" => true,
+            "MMS" => true
+        ],
+        "request_number" => true
+    ],
+    (object) [
+        "highlighted" => "+15095557780",
+        "friendlyName" => "(509) 555-7780",
+        "phoneNumber" => "+15095557780",
+        "locality" => "Ritzville",
+        "region" => "WA",
+        "postalCode" => "99169",
+        "lata" => "676",
+        "rateCenter" => "RITZVILLE",
+        "latitude" => "47.079600",
+        "longitude" => "-118.470500",
+        "isoCountry" => "US",
+        "addressRequirements" => "none",
+        "beta" => false,
+        "capabilities" => (object)[
+            "voice" => true,
+            "SMS" => true,
+            "MMS" => true
+        ],
+        "request_number" => true
+    ],
+    (object) [
+        "highlighted" => "+15095558683",
+        "friendlyName" => "(509) 555-8683",
+        "phoneNumber" => "+15095558683",
+        "locality" => "Ritzville",
+        "region" => "WA",
+        "postalCode" => "99169",
+        "lata" => "676",
+        "rateCenter" => "RITZVILLE",
+        "latitude" => "47.079600",
+        "longitude" => "-118.470500",
+        "isoCountry" => "US",
+        "addressRequirements" => "none",
+        "beta" => false,
+        "capabilities" => (object)[
+            "voice" => true,
+            "SMS" => true,
+            "MMS" => true
+        ],
+        "request_number" => true
+    ]
+];
 
 $rankPhoneNumbers = RankPhoneNumbers::setPhoneNumbers($twilioNumbers);
 $rankPhoneNumbers->setPhoneNumbersKeyName('phoneNumber');
 $ranked = $rankPhoneNumbers->rank();
-// $ranked will be the original phone numbers array sorted by rank 
+// $ranked
+
+[
+    [0] => (object) [
+        "highlighted" => "+15095557780",
+        "friendlyName" => "(509) 555-7780",
+        "phoneNumber" => "+15095557780",
+        "locality" => "Ritzville",
+        "region" => "WA",
+        "postalCode" => "99169",
+        "lata" => "676",
+        "rateCenter" => "RITZVILLE",
+        "latitude" => "47.079600",
+        "longitude" => "-118.470500",
+        "isoCountry" => "US",
+        "addressRequirements" => "none",
+        "beta" => false,
+        "capabilities" => (object)[
+            "voice" => true,
+            "SMS" => true,
+            "MMS" => true
+        ],
+        "request_number" => true,
+        "rank_phone_number_points" => 225
+        "rank_phone_number_word_match_end" =>  []
+    ],
+    [1] => (object) [
+        "highlighted" => "+15095554030",
+        "friendlyName" => "(509) 555-4030",
+        "phoneNumber" => "+15095554030",
+        "locality" => "Omak",
+        "region" => "WA",
+        "postalCode" => "98841",
+        "lata" => "676",
+        "rateCenter" => "OMAK",
+        "latitude" => "48.364700",
+        "longitude" => "-119.270400",
+        "isoCountry" => "US",
+        "addressRequirements" => "none",
+        "beta" => false,
+        "capabilities" => (object)[
+            "voice" => true,
+            "SMS" => true,
+            "MMS" => true
+        ],
+        "request_number" => true,
+        "rank_phone_number_points" => 175
+        "rank_phone_number_word_match_end" =>  []
+    ],
+    [2] => (object) [
+        "highlighted" => "+15095558683",
+        "friendlyName" => "(509) 555-8683",
+        "phoneNumber" => "+15095558683",
+        "locality" => "Ritzville",
+        "region" => "WA",
+        "postalCode" => "99169",
+        "lata" => "676",
+        "rateCenter" => "RITZVILLE",
+        "latitude" => "47.079600",
+        "longitude" => "-118.470500",
+        "isoCountry" => "US",
+        "addressRequirements" => "none",
+        "beta" => false,
+        "capabilities" => (object)[
+            "voice" => true,
+            "SMS" => true,
+            "MMS" => true
+        ],
+        "request_number" => true,
+        "rank_phone_number_points" => 80
+        "rank_phone_number_word_match_end" => [
+            "vote"
+        ]
+    ]
+];
+$phoneNumbers
 ```
 
 ## Methods
 
 ### setPhoneNumbers(array $phoneNumbers): self
 
-Sets the phone numbers to be ranked.
+Sets the phone numbers to be ranked
+
 
 ### setPhoneNumbersKeyName(string $phoneNumbersKeyName): self
 
-Sets the key name where the phone numbers are stored in associative arrays or object.
+Sets the key name of the phone number when using an associative array or object
+
+
+### addRule($rule): self
+
+Adds a rule to the ranking system. Must extend \RankPhoneNumbers\Abstracts\RuleAbstract
+
+### addWordRule($rule): self
+
+Adds a word rule to the ranking system. Must extend \RankPhoneNumbers\Abstracts\WordRuleAbstract
 
 ### rank(): array
 
-Returns the original phone numbers array sorted by rank.
+Ranks the phone numbers. Returning an array of the phone numbers sorted by rank.
 
+Includes the rank_phone_number_points and rank_phone_number_word_match_end properties.
 
-### Add Rules
-
-```php
-$rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
-$rankPhoneNumbers->setPhoneNumbers($phoneNumbers);
-$rankPhoneNumbers->setPhoneNumbersKeyName('phoneNumber');
-$rankPhoneNumbers->addRule(new App\RepeatsInARow);
-```
 
 ## Rules
 
 ### Default Rules
 
-- double_match
-- ends_in_zero_or_five
-- funny_69
-- funny_420
-- partial_sequential_numbers
-- pattern_135
-- pattern_246
-- pattern_357
-- pattern_369
-- pattern_468
-- pattern_579
-- pattern_642
-- pattern_753
-- pattern_864
-- pattern_963
-- pattern_975
-- pattern_two_increment
-- pattern_x2y2
-- repeats_in_a_row
-- same_numbers
-- sequential_numbers
-- song_865
-- song_5309
-- symmetrical
-- two_from_end_is_zero_or_five
+Rules look at last four digits of the phone number.
+
+- double_match (100 Points) // 2323
+- ends_in_zero_or_five (50 Points) // XXX0 or XXX5
+- funny_69 (10 Points) // XX69
+- funny_420 (10 Points) // X420
+- partial_sequential_numbers (90 Points) // 123X or X134, etc
+- pattern_135 (60 Points) // 135X or X135
+- pattern_246 (60 Points) // 246X or X246
+- pattern_357 (60 Points) // 357X or X357
+- pattern_369 (60 Points) // 369X or X369
+- pattern_468 (60 Points) // 468X or X468
+- pattern_579 (60 Points) // 579X or X579
+- pattern_642 (60 Points) // 642X or X642
+- pattern_753 (60 Points) // 753X or X753
+- pattern_864 (60 Points) // 864X or X864
+- pattern_963 (60 Points) // 963X or X963
+- pattern_975 (60 Points) // 975X or X975
+- pattern_two_increment (60 Points) // 123X or X123
+- pattern_x2y2 (50 Points) // X2Y2
+- repeats_in_a_row (100 Points) // 2323
+- same_numbers (75 Points) // 2XX2, 2X2X 22XX, 22X2, 222X, etc
+- sequential_numbers (100 Points) // 1234
+- song_865 (10 Points)  // X865 or 865X
+- song_5309 (100 Points) // 5309
+- symmetrical (100 Points) // 5225, 1221, etc
+- two_from_end_is_zero_or_five (50 Points) // XX0X or XX5X
 
 ### Modify Rules
 
@@ -158,9 +285,51 @@ $rankPhoneNumbers->setPhoneNumbers($phoneNumbers);
 $rankPhoneNumbers->rules['repeats_in_a_row']->points = 123;
 ```
 
+### Add Rule
+
+```php
+namespace App;
+
+use RankPhoneNumbers\Abstracts\RuleAbstract;
+
+class MyCustomRule extends RuleAbstract
+{
+    public function __construct()
+    {
+        $this->pattern = '/3792/';
+        $this->points = 500;
+        $this->name = 'my_custom_rule';
+    }
+}
+
+... 
+ 
+$rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
+$rankPhoneNumbers->addRule(new App\MyCustomRule);
+```
+
+### Word Rules
+
+The list of words that is checked against is mostly the words from the Oxford 5000, which is a list of 5000 words you should understand for a1-b2 english literacy, The list is trimmed down to be about 3000 words that are length 4-7 long.
+
+Checks the last four, five, six, and seven letters of the phone number to see if it is a word in T9 conversion.
+
+### Default Word Rules
+
+- word_is_last_four (5 Points)
+- word_is_last_five (5 Points)
+- word_is_last_six (5 Points)
+- word_is_last_seven (5 Points)
+
+### Modify Word Rules
+
+```php
+$rankPhoneNumbers = new RankPhoneNumbers\RankPhoneNumbers;
+$rankPhoneNumbers->rules['word_is_last_four']->points = 75;
+```
+
+
 ## TODO
 
-- [ ] Add tests
-- [ ] Be able to assign the point value to each rule inside of rank()
-- [ ] Be able to add your own custom rules for ranking
-- [ ] Add documentation
+- [ ] Add Tests
+- [ ] Documentation

@@ -14,6 +14,11 @@ class RankPhoneNumbers
 
     public array $rules = [];
 
+    public array $wordRules = [];
+
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->words = json_decode(file_get_contents(__DIR__ . '/words.json'), true);
@@ -43,8 +48,16 @@ class RankPhoneNumbers
         $this->addRule(new \RankPhoneNumbers\Rules\Song5309);
         $this->addRule(new \RankPhoneNumbers\Rules\Symmetrical);
         $this->addRule(new \RankPhoneNumbers\Rules\TwoFromEndIsZeroOrFive);
+
+        $this->addWordRule(new \RankPhoneNumbers\Words\LastFour);
+        $this->addWordRule(new \RankPhoneNumbers\Words\LastFive);
+        $this->addWordRule(new \RankPhoneNumbers\Words\LastSix);
+        $this->addWordRule(new \RankPhoneNumbers\Words\LastSeven);
     }
 
+    /**
+     * Sets the phone numbers to be ranked
+     */
     public function setPhoneNumbers(array $phoneNumbers): self
     {
         $this->phoneNumbers = $phoneNumbers;
@@ -52,6 +65,9 @@ class RankPhoneNumbers
         return $this;
     }
 
+    /**
+     * Sets the key name of the phone number when using an associative array or object
+     */
     public function setPhoneNumbersKeyName(string $phoneNumbersKeyName): self
     {
         $this->phoneNumbersKeyName = $phoneNumbersKeyName;
@@ -59,10 +75,15 @@ class RankPhoneNumbers
         return $this;
     }
 
+    /**
+     * Adds a rule to the ranking system. Must extend \RankPhoneNumbers\Abstracts\RuleAbstract
+     *
+     * @throws \Exception
+     */
     public function addRule($rule): self
     {
-        if (get_parent_class($rule) !== \RankPhoneNumbers\Rules\RuleAbstract::class) {
-            throw new \Exception('Rule must extend \RankPhoneNumbers\Rules\RuleAbstract');
+        if (get_parent_class($rule) !== Abstracts\RuleAbstract::class) {
+            throw new \Exception('Rule must extend \RankPhoneNumbers\Abstracts\RuleAbstract');
         }
 
         $new = new $rule;
@@ -71,12 +92,35 @@ class RankPhoneNumbers
         return $this;
     }
 
+    /**
+     * Adds a word rule to the ranking system. Must extend \RankPhoneNumbers\Abstracts\WordAbstract
+     *
+     * @throws \Exception
+     */
+    public function addWordRule($rule): self
+    {
+        if (get_parent_class($rule) !== Abstracts\WordAbstract::class) {
+            throw new \Exception('Rule must extend \RankPhoneNumbers\Abstracts\WordAbstract');
+        }
+
+        $new = new $rule;
+        $this->wordRules[$new->name] = $new;
+
+        return $this;
+    }
+
+    /**
+     * Ranks the phone numbers. Returning an array of the phone numbers sorted by rank.
+     * Appends rank_phone_number_points and rank_phone_number_word_match_end properties.
+     *
+     * @throws \Exception
+     */
     public function rank(): array
     {
         $rankedPhoneNumbers = [];
 
         foreach ($this->phoneNumbers as $phoneNumber) {
-            $number = $phoneNumber;
+            $number = null;
             if ($this->phoneNumbersKeyName) {
                 if (is_array($phoneNumber)) {
                     $number = $phoneNumber[$this->phoneNumbersKeyName];
@@ -85,15 +129,19 @@ class RankPhoneNumbers
                 }
             }
 
+            if (!$number) {
+                $number = $phoneNumber;
+            }
+
+            if (is_array($number) || is_object($number)) {
+                throw new \Exception('It looks like you are using associative arrays or objects, set the key name with setPhoneNumbersKeyName()');
+            }
+
             $rankedPhoneNumber = new stdClass;
-            $rankedPhoneNumber->number = $number;
             $rankedPhoneNumber->rank_phone_number_points = 0;
 
-            $number = preg_filter('/\D/', '', $number);
+            $number = preg_replace('/\D/', '', $number);
             $lastFour = substr($number, -4);
-            $lastFive = substr($number, -5);
-            $lastSix = substr($number, -6);
-            $lastSeven = substr($number, -7);
 
             foreach ($this->rules as $rule) {
                 if (preg_match($rule->pattern, $lastFour)) {
@@ -102,10 +150,14 @@ class RankPhoneNumbers
             }
 
             $wordMatch = [];
-            foreach ([$lastFour, $lastFive, $lastSix, $lastSeven] as $substring) {
-                $matches = array_keys($this->words, $substring, true);
+            foreach ($this->wordRules as $rule) {
+                if (!$rule->isActive) {
+                    continue;
+                }
+
+                $matches = array_keys($this->words, substr($number, $rule->endingDigitsToCheck), true);
                 if (count($matches) > 0) {
-                    $rankedPhoneNumber->rank_phone_number_points += 5;
+                    $rankedPhoneNumber->rank_phone_number_points += $rule->points;
                     $wordMatch = array_merge($wordMatch, $matches);
                 }
             }
@@ -120,13 +172,13 @@ class RankPhoneNumbers
                     $phoneNumber->rank_phone_number_points = $rankedPhoneNumber->rank_phone_number_points;
                     $phoneNumber->rank_phone_number_word_match_end = $rankedPhoneNumber->rank_phone_number_word_match_end;
                 } else {
-                    $newData['number'] = $phoneNumber;
+                    $newData['phone_number'] = $phoneNumber;
                     $newData['rank_phone_number_points'] = $rankedPhoneNumber->rank_phone_number_points;
                     $newData['rank_phone_number_word_match_end'] = $rankedPhoneNumber->rank_phone_number_word_match_end;
                     $phoneNumber = (object) $newData;
                 }
             } else {
-                $newData['number'] = $phoneNumber;
+                $newData['phone_number'] = $phoneNumber;
                 $newData['rank_phone_number_points'] = $rankedPhoneNumber->rank_phone_number_points;
                 $newData['rank_phone_number_word_match_end'] = $rankedPhoneNumber->rank_phone_number_word_match_end;
                 $phoneNumber = (object) $newData;
