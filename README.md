@@ -309,7 +309,7 @@ $rankPhoneNumbers->addRule(new App\MyCustomRule);
 
 ### Word Rules
 
-The list of words that is checked against is mostly the words from the Oxford 5000, which is a list of 5000 words you should understand for a1-b2 english literacy, The list is trimmed down to be about 3000 words that are length 4-7 long.
+The list of words that is checked against is mostly the words from the Oxford 5000, which is a list of 5000 words you should understand for a1-b2 english literacy. The list is trimmed down to be about 3000 words that are length 4-7 long.
 
 Checks the last four, five, six, and seven letters of the phone number to see if it is a word in T9 conversion.
 
